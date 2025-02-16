@@ -5,11 +5,11 @@ import Link from "next/link"
 import { Button } from "@heroui/button"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@heroui/checkbox"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import gsap from "gsap"
 import { Nunito_Sans } from "next/font/google";
 import { useForm, type SubmitHandler } from "react-hook-form"
-
+import { EyeIcon, EyeOffIcon } from "lucide-react"
 
 const nunitoSans = Nunito_Sans({
     variable: "--font-nunito-sans",
@@ -24,7 +24,9 @@ type FormInputs = {
 
 export default function LoginPage() {
     const formRef = useRef(null)
+    const [showPassword, setShowPassword] = useState(false)
     const { register, handleSubmit, formState: { errors }, } = useForm<FormInputs>()
+
     useEffect(() => {
         const ctx = gsap.context(() => {
             gsap.from(".animate-item", {
@@ -39,10 +41,13 @@ export default function LoginPage() {
         return () => ctx.revert()
     }, [])
 
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword)
+    }
+
     const onSubmit: SubmitHandler<FormInputs> = (data) => {
         console.log(data)
     }
-
 
     return (
         <div className="flex min-h-screen bg-white">
@@ -51,7 +56,8 @@ export default function LoginPage() {
                 <div className="absolute flex flex-col justify-between py-10 px-20">
                     <div className="z-10">
                         <h2 className="w-[203px]">
-                            <Image src="/logo.svg" alt="Login background" width={1000} height={1000} objectFit="contain" />
+                            <Image src="/logo.svg" alt="Logo" width={100} height={100} style={{ objectFit: "contain" }} />
+                            {/* <Image src="/logo.svg" alt="Login background" width={1000} height={1000} objectFit="contain" /> */}
                         </h2>
                         <div className="mt-2 font-bold">
                             <p className="text-[#17D059] text-5xl">KIIT<span className="text-white">Start</span> </p>
@@ -61,9 +67,9 @@ export default function LoginPage() {
                 </div>
                 <div className="absolute inset-0 z-0">
                     <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-white/0 z-10"></div>
-                    <Image src="/images/login-bg.jpg" alt="Login background" layout="fill" objectFit="cover" />
+                    <Image src="/images/login-bg.jpg" alt="Login background" fill priority style={{ objectFit: "cover" }} />
+                    {/* <Image src="/images/login-bg.jpg" alt="Login background" layout="fill" objectFit="cover" priority /> */}
                 </div>
-
             </div>
 
             {/* Right Column */}
@@ -103,27 +109,34 @@ export default function LoginPage() {
                                             pattern: {
                                                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                                                 message: "Invalid email address",
-                                            },
+                                            }
                                         })}
                                     />
                                     {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>}
                                 </div>
 
-                                <div className="animate-item">
+                                <div className="animate-item relative">
                                     <Input
                                         id="password"
-                                        type="password"
+                                        type={showPassword ? "text" : "password"}
                                         autoComplete="current-password"
-                                        className={`appearance-none rounded-md relative block w-full px-3 py-2 border ${errors.password ? "border-red-500" : "border-gray-300"} placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm transition duration-300 ease-in-out`}
+                                        className={`rounded-md relative block w-full px-3 py-2 border ${errors.password ? "border-red-500" : "border-gray-300"} placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm transition duration-300 ease-in-out pr-10`}
                                         placeholder="Password"
                                         {...register("password", {
                                             required: "Password is required",
                                             minLength: {
                                                 value: 8,
                                                 message: "Password must be at least 8 characters long",
-                                            },
+                                            }
                                         })}
                                     />
+                                    <button type="button" className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 z-10" onClick={togglePasswordVisibility}   >
+                                        {showPassword ? (
+                                            <EyeOffIcon className="h-5 w-5 text-gray-400" />
+                                        ) : (
+                                            <EyeIcon className="h-5 w-5 text-gray-400" />
+                                        )}
+                                    </button>
                                     {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password.message}</p>}
                                 </div>
                             </div>
