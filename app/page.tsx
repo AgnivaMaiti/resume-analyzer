@@ -8,9 +8,7 @@ import { FaTwitter, FaInstagram, FaEnvelope, FaBriefcase, FaUserGraduate, FaChal
 export default function Home() {
   return (
     <div style={{ backgroundColor: '#1a202c', color: 'white' }}>
-      {/* Combined Hero and Login Section with Background Image */}
       <div style={{ position: 'relative', minHeight: '100vh', padding: '4rem 0' }}>
-        {/* Background Image with Dark Overlay */}
         <div style={{ 
           position: 'absolute', 
           top: 0, 
@@ -48,7 +46,6 @@ export default function Home() {
           margin: '0 auto', 
           padding: '0 1rem'
         }}>
-          {/* Welcome Section */}
           <div style={{ marginLeft: '10%', maxWidth: '85%', marginBottom: '4rem' }}>
             <Image 
               src="/images/pngwing.com1.png" 
