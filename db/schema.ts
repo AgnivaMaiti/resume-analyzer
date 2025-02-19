@@ -35,6 +35,7 @@ export const studentForm = pgTable("student_form", {
 export const recruiterForm = pgTable("recruiter_form", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
+  email: varchar("email", { length: 256 }).notNull(),
   companyName: text("companyName").notNull(),
   roleInCompany: text("roleInCompany").notNull(),
   companyGSTNumber: varchar("companyGSTNumber", { length: 15 }).notNull(),
@@ -50,6 +51,7 @@ export const facultyForm = pgTable("faculty_form", {
   name: text("name").notNull(),
   school: text("school").notNull(),
   facultyID: varchar("facultyID", { length: 256 }).notNull().unique(),
+  facultymail: varchar("facultymail", { length: 256 }).notNull(),
   university: text("university").notNull(),
   contact: varchar("contact", { length: 256 }).notNull().unique(),
   domain: text("domain").notNull(),

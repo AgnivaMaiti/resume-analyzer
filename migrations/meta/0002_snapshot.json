@@ -1,5 +1,5 @@
 {
-  "id": "a7c67aca-c357-4f57-ba67-f175591aba1b",
+  "id": "6cf5f22a-f844-48a7-89bc-efd92fd85495",
   "prevId": "ead92edb-9c7f-452c-a222-c587731c165c",
   "version": "7",
   "dialect": "postgresql",
@@ -28,12 +28,6 @@
         },
         "facultyID": {
           "name": "facultyID",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "facultymail": {
-          "name": "facultymail",
           "type": "varchar(256)",
           "primaryKey": false,
           "notNull": true
@@ -320,12 +314,6 @@
         "name": {
           "name": "name",
           "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "email": {
-          "name": "email",
-          "type": "varchar(256)",
           "primaryKey": false,
           "notNull": true
         },
