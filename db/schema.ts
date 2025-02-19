@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import {
   date,
   integer,
@@ -101,15 +102,22 @@ export const projectDetails = pgTable("project_details", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const users = pgTable("users", {
-  id: integer("id")
-    .notNull()
-    .primaryKey()
-    .references(() => studentForm.id)
-    .references(() => facultyForm.id)
-    .references(() => recruiterForm.id),
-  username: varchar("username", { length: 256 }).notNull().unique(),
-  pasword: varchar("password", { length: 256 }).notNull(),
-  role: rolesEnum().notNull(),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+export const users = pgTable(
+  "users",
+  {
+    id: integer("id").notNull().primaryKey(),
+    username: varchar("username", { length: 256 }).notNull().unique(),
+    pasword: varchar("password", { length: 256 }).notNull(),
+    role: rolesEnum().notNull(),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+  },
+  () => ({
+    roleCheck: sql`
+    CONSTRAINT valid_role_id CHECK (
+      (role = 'student' AND EXISTS (SELECT 1 FROM student_form WHERE id = users.id)) OR
+      (role = 'faculty' AND EXISTS (SELECT 1 FROM faculty_form WHERE id = users.id)) OR
+      (role = 'recruiter' AND EXISTS (SELECT 1 FROM recruiter_form WHERE id = users.id))
+    )
+  `,
+  })
+);
