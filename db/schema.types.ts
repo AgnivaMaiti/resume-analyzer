@@ -24,10 +24,44 @@ const kiitStudentEmailRegex = /^[0-9]+@kiit\.ac\.in$/;
 const kiitFacultyEmailRegex = /^[a-zA-Z]+@kiit\.ac\.in$/;
 
 // Insert Schemas
-export const insertStudentFormSchema = createInsertSchema(studentForm, {
-  email: (s) => s.email().regex(kiitStudentEmailRegex, "Invalid student email"),
-});
+
 //TODO: Make them internal once these schemas have an email field
+
+// Insert Schemas
+export const insertStudentFormSchema = createInsertSchema(studentForm, {
+  name: (value) => value.trim().min(3, "Name must be at least 3 characters"),
+  email: (value) =>
+    value
+      .email("Invalid email address")
+      .regex(kiitStudentEmailRegex, "Invalid student email"),
+  rollNumber: (value) =>
+    value.trim().min(7, "Roll number must be at least 7 characters"),
+  school: (value) => value.trim().min(2, "School name is required"),
+  batch: (value) => value.trim().min(4, "Batch year is required"),
+  semester: (value) =>
+    value
+      .trim()
+      .min(1, "Semester is required")
+      .regex(/^[0-9]+$/, "Semester must be a number"),
+  contact: (value) =>
+    value
+      .trim()
+      .min(10, "Contact number must be 10 digits")
+      .regex(/^[0-9]+$/, "Contact number must be a number"),
+  skills: (value) => value.trim().min(2, "Skills are required"),
+  interestedDomains: (value) =>
+    value.trim().min(2, "Interested domains are required"),
+  interestedCompanies: (value) =>
+    value.trim().min(2, "Interested companies are required"),
+  projectsWorkedOn: (value) =>
+    value.trim().min(2, "Projects worked on are required"),
+  projectSummary: (value) => value.trim().min(2, "Project summary is required"),
+  gitHubProfile: (value) => value.url("Invalid GitHub URL").optional(),
+  linkedInProfile: (value) => value.url("Invalid LinkedIn URL").optional(),
+}).extend({
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
+
 export const insertRecruiterFormSchema = createInsertSchema(
   recruiterForm
 ).extend({

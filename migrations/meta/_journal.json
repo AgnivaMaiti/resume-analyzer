@@ -8,6 +8,13 @@
       "when": 1739788467791,
       "tag": "0000_harsh_master_chief",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1739994153208,
+      "tag": "0001_tearful_imperial_guard",
+      "breakpoints": true
     }
   ]
 }
