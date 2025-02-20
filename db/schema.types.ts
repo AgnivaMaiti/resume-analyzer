@@ -24,10 +24,6 @@ const kiitStudentEmailRegex = /^[0-9]+@kiit\.ac\.in$/;
 const kiitFacultyEmailRegex = /^[a-zA-Z]+@kiit\.ac\.in$/;
 
 // Insert Schemas
-
-//TODO: Make them internal once these schemas have an email field
-
-// Insert Schemas
 export const insertStudentFormSchema = createInsertSchema(studentForm, {
   name: (value) => value.trim().min(3, "Name must be at least 3 characters"),
   email: (value) =>
@@ -62,24 +58,21 @@ export const insertStudentFormSchema = createInsertSchema(studentForm, {
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
-export const insertRecruiterFormSchema = createInsertSchema(
-  recruiterForm
-).extend({
-  email: z
-    .string()
-    .email()
-    .refine((email) => {
+export const insertRecruiterFormSchema = createInsertSchema(recruiterForm, {
+  email: (s) =>
+    s.email().refine((email) => {
       const domain = email.split("@")[1];
       if (FREE_EMAIL_PROVIDERS.has(domain)) {
         throw new Error("Must use a company email address");
       }
     }),
 });
-export const insertFacultyFormSchema = createInsertSchema(facultyForm).extend({
-  email: z
-    .string()
-    .email("Invalid email")
-    .regex(kiitFacultyEmailRegex, "Invalid faculty email"),
+
+export const insertFacultyFormSchema = createInsertSchema(facultyForm, {
+  facultymail: (s) =>
+    s
+      .email("Invalid email")
+      .regex(kiitFacultyEmailRegex, "Invalid faculty email"),
 });
 export const insertProjectSchema = createInsertSchema(projects);
 export const insertPaymentSchema = createInsertSchema(payments);
