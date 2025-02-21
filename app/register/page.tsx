@@ -1,11 +1,11 @@
+"use client"
+
 import Registration from "@/components/Registration";
 
-const page = () => {
+export default function RegisterPage() {
   return (
     <div>
       <Registration />
     </div>
   );
-};
-
-export default page;
+}
