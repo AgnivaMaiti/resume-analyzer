@@ -36,7 +36,7 @@ export const stepOneSchema = insertStudentFormSchema.pick(
   >
 );
 
-const Registration = () => {
+const StudentRegistration = () => {
   const [step, setStep] = useState(1);
   const methods = useForm({
     resolver: zodResolver(insertStudentFormSchema),
@@ -109,4 +109,4 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+export default StudentRegistration;
