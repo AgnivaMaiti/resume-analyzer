@@ -59,13 +59,25 @@ export const insertStudentFormSchema = createInsertSchema(studentForm, {
 });
 
 export const insertRecruiterFormSchema = createInsertSchema(recruiterForm, {
+  name: (value) => value.trim().min(3, "Name must be at least 3 characters"),
   email: (s) =>
-    s.email().refine((email) => {
+    s.email("Invalid email address").refine((email) => {
       const domain = email.split("@")[1];
       if (FREE_EMAIL_PROVIDERS.has(domain)) {
-        throw new Error("Must use a company email address");
+        return false;
       }
-    }),
+      return true;
+    }, "Must use a company email address"),
+  companyName: (value) => value.trim().min(2, "Company name is required"),
+  roleInCompany: (value) => value.trim().min(2, "Role in company is required"),
+  companyGSTNumber: (value) => 
+    value.length(15, "GST number must be 15 characters"),
+  domain: (value) => value.trim().min(2, "Domain is required"),
+  skillsExpected: (value) => value.trim().min(2, "Skills expected are required"),
+  programmingLanguage: (value) => value.trim().min(2, "Programming languages are required"),
+  platformToolKnowledge: (value) => value.trim().min(2, "Platform/tool knowledge is required"),
+}).extend({
+  password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
 export const insertFacultyFormSchema = createInsertSchema(facultyForm, {

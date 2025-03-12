@@ -1,11 +1,26 @@
 "use client"
 
-import Registration from "@/components/Registration";
+import RecruitRegestration from "@/components/RecruitRegestration";
+import StudentRegistration from "@/components/StudentRegistration";
+import { useSearchParams } from "next/navigation";
+
 
 export default function RegisterPage() {
+  const searchParams = useSearchParams()
+ 
+  const search = searchParams.get('role')
+
+  if (!search) {
+    return <div>Invalid Role</div>
+  }
+
   return (
     <div>
-      <Registration />
+      {{
+        recruiter: <RecruitRegestration />,
+        student: <StudentRegistration />
+      }[search] 
+      }
     </div>
   );
 }
